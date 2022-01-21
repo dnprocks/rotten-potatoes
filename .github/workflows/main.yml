@@ -28,6 +28,6 @@ jobs:
           context: ./src
           file: ./src/Dockerfile
           push: true
-          tags:
+          tags: |
             dnpimentel/rotten-potatoes:latest
             dnpimentel/rotten-potatoes:v${{ github.run_number }}
