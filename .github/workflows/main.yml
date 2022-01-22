@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  CI:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,7 +21,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PWD }}
 
-
       - name: Build and push Docker images
         uses: docker/build-push-action@v2.7.0
         with:
@@ -31,3 +30,14 @@ jobs:
           tags: |
             dnpimentel/rotten-potatoes:latest
             dnpimentel/rotten-potatoes:v${{ github.run_number }}
+  CD:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Kubernetes Set Context
+        uses: Azure/k8s-set-context@v2
+        with: 
+          method: kubeconfig
+          kubeconfig: ${{ secrets.K8S_KUBECONFIG_DIG_OC }}
+        
